@@ -629,6 +629,36 @@ test_ ## testnum: \
 // ^ x14 is used in some other macros, to avoid issues we use x15 for upper word
 
 #-----------------------------------------------------------------------
+# RV64UPF MACROS
+#-----------------------------------------------------------------------
+
+#define TEST_PA_OP_S_INTERNAL( testnum, flags, result, val1, val2, val3, code... ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  flw f0, 0(a0); \
+  flw f1, 4(a0); \
+  flw f2, 8(a0); \
+  lw  a3, 12(a0); \
+  code; \
+  fsflags a1, x0; \
+  li a2, flags; \
+  bne a0, a3, fail; \
+  bne a1, a2, fail; \
+  .pushsection .data; \
+  .align 2; \
+  test_ ## testnum ## _data: \
+  .int val1; \
+  .int val2; \
+  .int val3; \
+  .result; \
+  .popsection
+
+#define TEST_PA_OP2_S( testnum, inst, flags, result, val1, val2 ) \
+  TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, val2, 0, \
+                    inst f3, f0, f1; fmv.x.s a0, f3)
+
+#-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
 #-----------------------------------------------------------------------
 
