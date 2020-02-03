@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------
 
 rv64upf_sc_tests = \
-	pfadd pfclass \
+	pfadd pfclass pfcmp \
 
 rv64upf_p_tests = $(addprefix rv64upf-p-, $(rv64upf_sc_tests))
 rv64upf_v_tests = $(addprefix rv64upf-v-, $(rv64upf_sc_tests))

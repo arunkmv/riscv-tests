@@ -632,6 +632,8 @@ test_ ## testnum: \
 # RV64UPF MACROS
 #-----------------------------------------------------------------------
 
+#define NaRf 0x80000000
+
 #define TEST_PA_OP_S_INTERNAL( testnum, flags, result, val1, val2, val3, code... ) \
 test_ ## testnum: \
   li  TESTNUM, testnum; \
@@ -657,6 +659,10 @@ test_ ## testnum: \
 #define TEST_PA_OP2_S( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, val2, 0, \
                     inst f3, f0, f1; fmv.x.s a0, f3)
+
+#define TEST_PA_CMP_OP_S( testnum, inst, flags, result, val1, val2 ) \
+  TEST_PA_OP_S_INTERNAL( testnum, flags, word result, val1, val2, 0, \
+                    inst a0, f0, f1)
 
 #-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
