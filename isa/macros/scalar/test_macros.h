@@ -641,7 +641,7 @@ test_ ## testnum: \
   flw f0, 0(a0); \
   flw f1, 4(a0); \
   flw f2, 8(a0); \
-  lw  a3, 12(a0); \
+  lwu  a3, 12(a0); \
   code; \
   fsflags a1, x0; \
   li a2, flags; \
