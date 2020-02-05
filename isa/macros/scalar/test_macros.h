@@ -656,6 +656,23 @@ test_ ## testnum: \
   .result; \
   .popsection
 
+#define TEST_INT_PA_OP_S( testnum, inst, result, val1 ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  lwu  a3, 0(a0); \
+  li  a0, val1; \
+  inst f0, a0; \
+  fsflags x0; \
+  fmv.x.s a0, f0; \
+  bne a0, a3, fail; \
+  .pushsection .data; \
+  .align 2; \
+  test_ ## testnum ## _data: \
+  .int result; \
+  .popsection
+
+
 #define TEST_PA_OP2_S( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, val2, 0, \
                     inst f3, f0, f1; fmv.x.s a0, f3)
