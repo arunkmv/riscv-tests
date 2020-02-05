@@ -664,6 +664,10 @@ test_ ## testnum: \
   TEST_PA_OP_S_INTERNAL( testnum, flags, word result, val1, val2, 0, \
                     inst a0, f0, f1)
 
+#define TEST_PA_INT_OP_S( testnum, inst, flags, result, val1) \
+  TEST_PA_OP_S_INTERNAL( testnum, flags, word result, val1, 0, 0, \
+                    inst a0, f0, rne)
+
 #-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
 #-----------------------------------------------------------------------
