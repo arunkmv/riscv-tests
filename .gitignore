@@ -13,3 +13,4 @@
 /config.status
 /build
 *.sh
+.vscode/

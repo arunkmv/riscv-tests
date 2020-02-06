@@ -672,6 +672,9 @@ test_ ## testnum: \
   .int result; \
   .popsection
 
+#define TEST_PA_OP1_S( testnum, inst, flags, result, val1 ) \
+  TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, 0, 0, \
+                    inst f3, f0; fmv.x.s a0, f3)
 
 #define TEST_PA_OP2_S( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, val2, 0, \
