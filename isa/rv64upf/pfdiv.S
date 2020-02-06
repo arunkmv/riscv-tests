@@ -15,6 +15,9 @@ RVTEST_CODE_BEGIN
   TEST_PA_OP1_S(5,  fsqrt.s, 0, 0x462dfc48, 0x4c90fdaa); #1.7724538498928541 = sqrt(3.14159265)
   TEST_PA_OP1_S(6,  fsqrt.s, 0, 0x6a400000, 0x79388000); #100 = sqrt(10000)
 
+  TEST_PA_OP1_S(7,  fsqrt.s, 0, 0x80000000, 0xc0000000); #NaR = sqrt(-1.0)
+  TEST_PA_OP1_S(8,  fsqrt.s, 0, 0x5d13a267, 0x6d580000); #13.076696 = sqrt(171.0)
+
   TEST_PASSFAIL
 
 RVTEST_CODE_END
