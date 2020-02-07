@@ -641,7 +641,7 @@ test_ ## testnum: \
   flw f0, 0(a0); \
   flw f1, 4(a0); \
   flw f2, 8(a0); \
-  lwu  a3, 12(a0); \
+  lw  a3, 12(a0); \
   code; \
   fsflags a1, x0; \
   li a2, flags; \
@@ -660,7 +660,7 @@ test_ ## testnum: \
 test_ ## testnum: \
   li  TESTNUM, testnum; \
   la  a0, test_ ## testnum ## _data ;\
-  lwu  a3, 0(a0); \
+  lw  a3, 0(a0); \
   li  a0, val1; \
   inst f0, a0; \
   fsflags x0; \
@@ -669,6 +669,24 @@ test_ ## testnum: \
   .pushsection .data; \
   .align 2; \
   test_ ## testnum ## _data: \
+  .int result; \
+  .popsection
+
+#define TEST_PFSGNJS(testnum, insn, result, rs1_val, rs2_val) \
+test_ ## testnum: \
+  li TESTNUM, testnum;\
+  la  a0, test_ ## testnum ## _data ;\
+  flw f0, 0(a0); \
+  flw f1, 4(a0); \
+  lw  a3, 8(a0); \
+  insn f2, f0, f1; \
+  fmv.x.s a0, f2; \
+  bne a0, a3, fail; \
+  .pushsection .data; \
+  .align 2; \
+  test_ ## testnum ## _data: \
+  .int rs1_val; \
+  .int rs2_val; \
   .int result; \
   .popsection
 
