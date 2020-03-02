@@ -690,6 +690,28 @@ test_ ## testnum: \
   .int result; \
   .popsection
 
+#define TEST_PA_OP_D_INTERNAL( testnum, flags, result, val1, val2, val3, code... ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  fld f0, 0(a0); \
+  fld f1, 8(a0); \
+  fld f2, 16(a0); \
+  ld  a3, 24(a0); \
+  code; \
+  fsflags a1, x0; \
+  li a2, flags; \
+  bne a0, a3, fail; \
+  bne a1, a2, fail; \
+  .pushsection .data; \
+  .align 3; \
+  test_ ## testnum ## _data: \
+  .quad val1; \
+  .quad val2; \
+  .quad val3; \
+  .result; \
+  .popsection
+
 #define TEST_PA_OP1_S( testnum, inst, flags, result, val1 ) \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, 0, 0, \
                     inst f3, f0; fmv.x.s a0, f3)
@@ -710,6 +732,9 @@ test_ ## testnum: \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, val2, val3, \
                     inst f3, f0, f1, f2; fmv.x.s a0, f3)
 
+#define TEST_PA_OP2_D( testnum, inst, flags, result, val1, val2 ) \
+  TEST_PA_OP_D_INTERNAL( testnum, flags, quad result, val1, val2, 0, \
+                    inst f3, f0, f1; fmv.x.d a0, f3)
 #-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
 #-----------------------------------------------------------------------
@@ -720,6 +745,9 @@ fail: \
         RVTEST_FAIL; \
 pass: \
         RVTEST_PASS \
+
+#define TEST_PASS_ALWAYS \
+        RVTEST_PASS;
 
 
 #-----------------------------------------------------------------------

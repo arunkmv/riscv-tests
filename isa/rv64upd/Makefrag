@@ -1,0 +1,11 @@
+#=======================================================================
+# Makefrag for rv64upf tests
+#-----------------------------------------------------------------------
+
+rv64upd_sc_tests = \
+	pfadd \
+
+rv64upd_p_tests = $(addprefix rv64upd-p-, $(rv64upd_sc_tests))
+rv64upd_v_tests = $(addprefix rv64upd-v-, $(rv64upd_sc_tests))
+
+spike_tests += $(rv64upd_p_tests) $(rv64upd_v_tests)
