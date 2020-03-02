@@ -736,6 +736,10 @@ test_ ## testnum: \
 #define TEST_PA_OP2_D( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_D_INTERNAL( testnum, flags, quad result, val1, val2, 0, \
                     inst f3, f0, f1; fmv.x.d a0, f3)
+
+#define TEST_PA_CMP_OP_D( testnum, inst, flags, result, val1, val2 ) \
+  TEST_PA_OP_D_INTERNAL( testnum, flags, word result, val1, val2, 0, \
+                    inst a0, f0, f1)
 #-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
 #-----------------------------------------------------------------------
