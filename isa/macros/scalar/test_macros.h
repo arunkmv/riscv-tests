@@ -633,6 +633,7 @@ test_ ## testnum: \
 #-----------------------------------------------------------------------
 
 #define NaRf 0x80000000
+#define NaRd 0x8000000000000000
 
 #define TEST_PA_OP_S_INTERNAL( testnum, flags, result, val1, val2, val3, code... ) \
 test_ ## testnum: \
