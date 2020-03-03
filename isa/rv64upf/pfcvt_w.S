@@ -59,8 +59,5 @@ RVTEST_DATA_BEGIN
 tdat:
 .word 0x80000000
 
-tdat_d:
-.dword 0x8000000000000000
-
 RVTEST_DATA_END
 

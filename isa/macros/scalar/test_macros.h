@@ -740,6 +740,10 @@ test_ ## testnum: \
 #define TEST_PA_CMP_OP_D( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_D_INTERNAL( testnum, flags, word result, val1, val2, 0, \
                     inst a0, f0, f1)
+
+#define TEST_PA_INT_OP_D( testnum, inst, flags, result, val1) \
+  TEST_PA_OP_D_INTERNAL( testnum, flags, dword result, val1, 0, 0, \
+                    inst a0, f0, rne)
 #-----------------------------------------------------------------------
 # Pass and fail code (assumes test num is in TESTNUM)
 #-----------------------------------------------------------------------
