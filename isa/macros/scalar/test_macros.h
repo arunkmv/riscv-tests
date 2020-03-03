@@ -713,6 +713,30 @@ test_ ## testnum: \
   .result; \
   .popsection
 
+#define TEST_PA_OP_D32_INTERNAL( testnum, flags, result, val1, val2, val3, code... ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  fld f0, 0(a0); \
+  fld f1, 8(a0); \
+  fld f2, 16(a0); \
+  lw  a3, 24(a0); \
+  lw  t1, 28(a0); \
+  code; \
+  fsflags a1, x0; \
+  li a2, flags; \
+  bne a0, a3, fail; \
+  bne t1, t2, fail; \
+  bne a1, a2, fail; \
+  .pushsection .data; \
+  .align 3; \
+  test_ ## testnum ## _data: \
+  .quad val1; \
+  .quad val2; \
+  .quad val3; \
+  .result; \
+  .popsection
+
 #define TEST_INT_PA_OP_D( testnum, inst, result, val1 ) \
 test_ ## testnum: \
   li  TESTNUM, testnum; \
@@ -729,9 +753,35 @@ test_ ## testnum: \
   .quad result; \
   .popsection
 
+#define TEST_INT_PA_OP_D32( testnum, inst, result, val1 ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  lw  a3, 0(a0); \
+  lw  a4, 4(a0); \
+  li  a1, val1; \
+  inst f0, a1; \
+  \
+  fsd f0, 0(a0); \
+  lw a1, 4(a0); \
+  lw a0, 0(a0); \
+  \
+  fsflags x0; \
+  bne a0, a3, fail; \
+  bne a1, a4, fail; \
+  .pushsection .data; \
+  .align 3; \
+  test_ ## testnum ## _data: \
+  .quad result; \
+  .popsection
+
 #define TEST_PFCVT_S_D( testnum, result, val1 ) \
   TEST_PA_OP_D_INTERNAL( testnum, 0, quad result, val1, 0, 0, \
                     fcvt.s.d f3, f0; fcvt.d.s f3, f3; fmv.x.d a0, f3)
+              
+#define TEST_PFCVT_S_D32( testnum, result, val1 ) \
+  TEST_FP_OP_D32_INTERNAL( testnum, 0, quad result, val1, 0.0, 0.0, \
+                    fcvt.s.d f3, f0; fcvt.d.s f3, f3; fsd f3, 0(a0); lw t2, 4(a0); lw a0, 0(a0))
 
 #define TEST_PFCVT_D_S( testnum, result, val1 ) \
   TEST_PA_OP_S_INTERNAL( testnum, 0, int result, val1, 0, 0, \
@@ -760,10 +810,18 @@ test_ ## testnum: \
 #define TEST_PA_OP2_D( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_D_INTERNAL( testnum, flags, quad result, val1, val2, 0, \
                     inst f3, f0, f1; fmv.x.d a0, f3)
+                    
+#define TEST_PA_OP2_D32( testnum, inst, flags, result, val1, val2 ) \
+  TEST_FP_OP_D32_INTERNAL( testnum, flags, quad result, val1, val2, 0, \
+                    inst f3, f0, f1; fsd f3, 0(a0); lw t2, 4(a0); lw a0, 0(a0))
 
 #define TEST_PA_CMP_OP_D( testnum, inst, flags, result, val1, val2 ) \
-  TEST_PA_OP_D_INTERNAL( testnum, flags, word result, val1, val2, 0, \
+  TEST_PA_OP_D_INTERNAL( testnum, flags, dword result, val1, val2, 0, \
                     inst a0, f0, f1)
+                
+#define TEST_PA_CMP_OP_D32( testnum, inst, flags, result, val1, val2 ) \
+  TEST_FP_OP_D32_INTERNAL( testnum, flags, dword result, val1, val2, 0, \
+                    inst a0, f0, f1; li t2, 0)
 
 #define TEST_PA_INT_OP_D( testnum, inst, flags, result, val1) \
   TEST_PA_OP_D_INTERNAL( testnum, flags, dword result, val1, 0, 0, \

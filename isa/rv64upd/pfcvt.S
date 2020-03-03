@@ -15,11 +15,11 @@ RVTEST_CODE_BEGIN
 
 #if __riscv_xlen == 32
     # Replace the function with the 32-bit variant defined in test_macros.h
-    #undef TEST_INT_FP_OP_D
-    #define TEST_INT_FP_OP_D TEST_INT_FP_OP_D32
+    #undef TEST_INT_PA_OP_D
+    #define TEST_INT_PA_OP_D TEST_INT_PA_OP_D32
 
     #undef TEST_FCVT_S_D
-    #define TEST_FCVT_S_D TEST_FCVT_S_D32
+    #define TEST_FCVT_S_D TEST_PFCVT_S_D32
 #endif
 
   #-------------------------------------------------------------

@@ -7,7 +7,7 @@ RVTEST_CODE_BEGIN
 #if __riscv_xlen == 32
     # Bypass the tests as using the 32 bit varient is currently not possible
     #undef TEST_PA_CMP_OP_D
-    #define TEST_PA_CMP_OP_D TEST_PASS_ALWAYS
+    #define TEST_PA_CMP_OP_D TEST_PA_CMP_OP_D32
 #endif
 
   TEST_PA_CMP_OP_D( 2, feq.d, 0x00, 1, 0xBE8F5C28F5C28F40, 0xBE8F5C28F5C28F40) # -1.36, -1.36
