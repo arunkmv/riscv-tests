@@ -5,7 +5,7 @@ RVTEST_RV64UF
 RVTEST_CODE_BEGIN
 
 #if __riscv_xlen == 32
-    # Bypass the tests as using the 32 bit varient is currently not possible
+    # Replace the function with the 32-bit variant defined in test_macros.h
     #undef TEST_PA_CMP_OP_D
     #define TEST_PA_CMP_OP_D TEST_PA_CMP_OP_D32
 #endif
