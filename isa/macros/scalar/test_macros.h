@@ -713,6 +713,30 @@ test_ ## testnum: \
   .result; \
   .popsection
 
+#define TEST_INT_PA_OP_D( testnum, inst, result, val1 ) \
+test_ ## testnum: \
+  li  TESTNUM, testnum; \
+  la  a0, test_ ## testnum ## _data ;\
+  ld  a3, 0(a0); \
+  li  a0, val1; \
+  inst f0, a0; \
+  fsflags x0; \
+  fmv.x.d a0, f0; \
+  bne a0, a3, fail; \
+  .pushsection .data; \
+  .align 3; \
+  test_ ## testnum ## _data: \
+  .quad result; \
+  .popsection
+
+#define TEST_PFCVT_S_D( testnum, result, val1 ) \
+  TEST_PA_OP_D_INTERNAL( testnum, 0, quad result, val1, 0, 0, \
+                    fcvt.s.d f3, f0; fcvt.d.s f3, f3; fmv.x.d a0, f3)
+
+#define TEST_PFCVT_D_S( testnum, result, val1 ) \
+  TEST_PA_OP_S_INTERNAL( testnum, 0, int result, val1, 0, 0, \
+                    fcvt.d.s f3, f0; fcvt.s.d f3, f3; fmv.x.s a0, f3)
+
 #define TEST_PA_OP1_S( testnum, inst, flags, result, val1 ) \
   TEST_PA_OP_S_INTERNAL( testnum, flags, int result, val1, 0, 0, \
                     inst f3, f0; fmv.x.s a0, f3)
