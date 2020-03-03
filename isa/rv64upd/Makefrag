@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------
 
 rv64upd_sc_tests = \
-	pfadd pfclass pfcmp pfcvt_w pfcvt pfdiv pfmadd pfmin pldst pmove\
+	pfadd pfclass pfcmp pfcvt_w pfcvt pfdiv pfmadd pfmin pldst pmove pstructural\
 
 rv64upd_p_tests = $(addprefix rv64upd-p-, $(rv64upd_sc_tests))
 rv64upd_v_tests = $(addprefix rv64upd-v-, $(rv64upd_sc_tests))
