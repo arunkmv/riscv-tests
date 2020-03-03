@@ -823,6 +823,14 @@ test_ ## testnum: \
   TEST_FP_OP_D32_INTERNAL( testnum, flags, quad result, val1, val2, 0, \
                     inst f3, f0, f1; fsd f3, 0(a0); lw t2, 4(a0); lw a0, 0(a0))
 
+#define TEST_PA_OP3_D( testnum, inst, flags, result, val1, val2, val3 ) \
+  TEST_PA_OP_D_INTERNAL( testnum, flags, quad result, val1, val2, val3, \
+                    inst f3, f0, f1, f2; fmv.x.d a0, f3)
+
+#define TEST_PA_OP3_D32( testnum, inst, flags, result, val1, val2, val3 ) \
+  TEST_PA_OP_D32_INTERNAL( testnum, flags, quad result, val1, val2, val3, \
+                    inst f3, f0, f1, f2; fsd f3, 0(a0); lw t2, 4(a0); lw a0, 0(a0))
+
 #define TEST_PA_CMP_OP_D( testnum, inst, flags, result, val1, val2 ) \
   TEST_PA_OP_D_INTERNAL( testnum, flags, dword result, val1, val2, 0, \
                     inst a0, f0, f1)
