@@ -775,6 +775,24 @@ test_ ## testnum: \
   .quad result; \
   .popsection
 
+#define TEST_PFSGNJD(testnum, insn, result, rs1_val, rs2_val) \
+test_ ## testnum: \
+  li TESTNUM, testnum;\
+  la  a0, test_ ## testnum ## _data ;\
+  fld f0, 0(a0); \
+  fld f1, 8(a0); \
+  ld  a3, 16(a0); \
+  insn f2, f0, f1; \
+  fmv.x.d a0, f2; \
+  bne a0, a3, fail; \
+  .pushsection .data; \
+  .align 3; \
+  test_ ## testnum ## _data: \
+  .quad rs1_val; \
+  .quad rs2_val; \
+  .quad result; \
+  .popsection
+
 #define TEST_PFCVT_S_D( testnum, result, val1 ) \
   TEST_PA_OP_D_INTERNAL( testnum, 0, quad result, val1, 0, 0, \
                     fcvt.s.d f3, f0; fcvt.d.s f3, f3; fmv.x.d a0, f3)
